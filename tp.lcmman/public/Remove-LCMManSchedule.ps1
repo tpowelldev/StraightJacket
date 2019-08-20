@@ -25,7 +25,7 @@ function Remove-LCMManSchedule
 
     #>
 
-    [cmdletbinding()]
+    [CmdletBinding(SupportsShouldProcess, ConfirmImpact='Low')]
     param
     (
         [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName)]

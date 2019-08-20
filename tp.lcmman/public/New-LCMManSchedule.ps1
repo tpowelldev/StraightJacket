@@ -44,7 +44,7 @@ function New-LCMManSchedule
 
     #>
 
-    [cmdletbinding()]
+    [CmdletBinding(SupportsShouldProcess, ConfirmImpact='Low')]
     param
     (
         [datetime]$StartTime = '00:00:00',

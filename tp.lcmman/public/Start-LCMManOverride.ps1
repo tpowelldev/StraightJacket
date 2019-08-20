@@ -20,6 +20,7 @@ function Start-LCMManOverride
 
     #>
 
+    [CmdletBinding(SupportsShouldProcess, ConfirmImpact='Low')]
     param
     (
         [ValidateSet('Pull','Push')]
@@ -28,6 +29,6 @@ function Start-LCMManOverride
         [string]$RegRootPath = 'HKLM:\SOFTWARE\LCMMan'
     )
 
-    Set-LCMAttribute -RefreshMode $RefreshMode
     $null = Set-ItemProperty -Path $RegRootPath -Name OverrideOn -Value 1
+    Set-LCMAttribute -RefreshMode $RefreshMode
 }

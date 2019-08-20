@@ -2,34 +2,34 @@ function Set-LCMAttribute
 {
     <#
     .SYNOPSIS
-    Short description
+    Configures the DSC LCM
 
     .DESCRIPTION
-    Long description
+    Updates the DSC LCM with the specified parameters by creating and applying a meta mof configuration file
 
     .PARAMETER ActionAfterReboot
-    Parameter description
+    Action for DSC to take after a reboot. Either continue with configuration or stop
 
     .PARAMETER AllowModuleOverwrite
-    Parameter description
+    Allow DSC to overwrite exiting modules
 
     .PARAMETER ConfigurationMode
-    Parameter description
+    Mode in which DSC will operate. Valid options being ApplyOnly, ApplyAndMonitor or ApplyAndAutoCorrect
 
     .PARAMETER ConfigurationModeFrequencyMins
-    Parameter description
+    How often DSC should apply the configuration
 
     .PARAMETER RebootNodeIfNeeded
-    Parameter description
+    If the configuration requires a reboot, whether this allowed or not
 
     .PARAMETER RefreshMode
-    Parameter description
+    Specifies whether the LCM operates in Push or Pull mode, or is disabled
 
     .PARAMETER RefreshFrequencyMins
-    Parameter description
+    How often the LCM will check for new configuration
 
     .PARAMETER StatusRetentionTimeInDays
-    Parameter description
+    How long the LCM will keep status
 
     .EXAMPLE
     Set-LCMAttribute -RefreshMode Disabled
@@ -45,7 +45,7 @@ function Set-LCMAttribute
 
     #>
 
-    [cmdletbinding()]
+    [CmdletBinding(SupportsShouldProcess, ConfirmImpact='Low')]
     param
     (
         [ValidateSet('ContinueConfiguration','StopConfiguration')]
@@ -70,8 +70,8 @@ function Set-LCMAttribute
 
     $currentLCMConfig = Get-DscLocalConfigurationManager
 
-    if ($RefreshMode -eq 'Pull' -and 
-        ($null -eq $currentLCMConfig.ConfigurationID -or 
+    if ($RefreshMode -eq 'Pull' -and
+        ($null -eq $currentLCMConfig.ConfigurationID -or
         $null -eq $currentLCMConfig.ConfigurationDownloadManagers))
     {
         throw "'RefreshMode: Pull' has been specified, but this server hasn't previously been configured for Pull mode. `

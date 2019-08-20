@@ -19,6 +19,7 @@ function Stop-LCMManOverride
 
     #>
 
+    [CmdletBinding(SupportsShouldProcess, ConfirmImpact='Low')]
     param
     (
         [string]$RegRootPath = 'HKLM:\SOFTWARE\LCMMan'

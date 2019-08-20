@@ -22,7 +22,7 @@ function Invoke-LCMMan
 
     #>
 
-    [cmdletbinding()]
+    [CmdletBinding()]
     param
     (
         [ValidateSet('Pull','Push')]
@@ -32,12 +32,35 @@ function Invoke-LCMMan
     )
 
     $overrideOn = Get-ItemProperty -Path $RegRootPath -Name OverrideOn
+    $currentRefreshMode = (Get-DscLocalConfigurationManager).RefreshMode
+
     if ($overrideOn -ne 1)
     {
-        if (Get-LCMManSchedule | Where-Object ActiveNow -eq $true)
+        if (Get-LCMManSchedule | Where-Object ActiveNow)
         {
-            Write-Verbose "Active schedule matched. Setting LCM, Refresh Mode: $RefreshMode"
-            Set-LCMAttribute -RefreshMode $RefreshMode
+            Write-Verbose "Active schedule matched. Checking LCM, RefreshMode: $RefreshMode"
+            if ($currentRefreshMode -ne $RefreshMode)
+            {
+                Set-LCMAttribute -RefreshMode $RefreshMode
+                Write-Verbose "Local LCM RefreshMode was: $currentRefreshMode, Configured LCM RefreshMode to: $RefreshMode"
+            }
+            else
+            {
+                Write-Verbose "Local LCM RefreshMode currently: $currentRefreshMode, no action required"
+            }
+        }
+        else
+        {
+            Write-Verbose "No active schedule matched. Checking LCM, RefreshMode: Disabled"
+            if ($currentRefreshMode -ne 'Disabled')
+            {
+                Set-LCMAttribute -RefreshMode 'Disabled'
+                Write-Verbose "Local LCM RefreshMode was: $currentRefreshMode, Configured LCM RefreshMode to: Disabled"
+            }
+            else
+            {
+                Write-Verbose "Local LCM RefreshMode currently: $currentRefreshMode, no action required"
+            }
         }
     }
     else

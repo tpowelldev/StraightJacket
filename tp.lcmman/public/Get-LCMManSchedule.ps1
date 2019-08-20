@@ -30,13 +30,13 @@ function Get-LCMManSchedule
     )
 
     $now = Get-Date
-    $schedules = Get-ChildItem -Path "$RootRegPath\Schedules" | 
+    $schedules = Get-ChildItem -Path "$RootRegPath\Schedules" |
     Get-ItemProperty | Select-Object @{n='ScheduleID';e={$_.PSChildName}},
                                     StartTime,
                                     EndTime,
-                                    DaysActive,
+                                    @{n='DaysActive';e={@($_.DaysActive -split ',')}},
                                     CreatedBy,
-                                    @{n='ActiveNow';e={ $_.DaysActive -contains $now.DayOfWeek -and 
+                                    @{n='ActiveNow';e={ @($_.DaysActive -split ',') -contains $now.DayOfWeek -and
                                     ((Get-Date $_.StartTime) -lt $now -and (Get-Date $_.EndTime) -gt $now) }}
     $schedules
 }
