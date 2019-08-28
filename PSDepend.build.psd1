@@ -7,7 +7,7 @@
         }
     }
 
-    buildhelpers = '4.0.0'
+    buildhelpers = 'latest'
     invokeBuild = 'latest'
     pester = 'latest'
     PSScriptAnalyzer = 'latest'
