@@ -18,11 +18,9 @@ Describe 'General module control' -Tags 'FunctionalQuality'  {
     }
 }
 
-#$PrivateFunctions = Get-ChildItem -Path "$modulePath\Private\*.ps1"
-#$PublicFunctions =  Get-ChildItem -Path "$modulePath\Public\*.ps1"
 $allModuleFunctions = @()
-$allModuleFunctions += Get-ChildItem -Path "$modulePath\Private\*.ps1"
-$allModuleFunctions += Get-ChildItem -Path "$modulePath\Public\*.ps1"
+if (Test-Path "$modulePath\Private") { $allModuleFunctions += Get-ChildItem -Path "$modulePath\Private\*.ps1" }
+if (Test-Path "$modulePath\Private") { $allModuleFunctions += Get-ChildItem -Path "$modulePath\Public\*.ps1" }
 
 if (Get-Command Invoke-ScriptAnalyzer -ErrorAction SilentlyContinue) {
     $scriptAnalyzerRules = Get-ScriptAnalyzerRule

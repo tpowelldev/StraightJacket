@@ -6,3 +6,4 @@ modules/*
 .kitchen.local.yml
 .DS_Store
 !**/README.md
+.vscode
