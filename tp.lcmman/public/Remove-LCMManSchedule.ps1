@@ -8,7 +8,7 @@ function Remove-LCMManSchedule
     Using the supplied schedule GUID, either specified or from the pipeline, removes the schedule
 
     .PARAMETER ScheduleID
-    GUID of schedule to be removed, as listed by Get-LCMManSchedule
+    GUID(s) of schedule(s) to be removed, as listed by Get-LCMManSchedule
 
     .PARAMETER RootRegPath
     Root registry location where LCMMan keys are located
@@ -30,10 +30,14 @@ function Remove-LCMManSchedule
     (
         [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName)]
         [ValidateNotNullOrEmpty()]
-        [String]$ScheduleID,
+        [String[]]$ScheduleID,
 
         [string]$RootRegPath = 'HKLM:\SOFTWARE\LCMMan'
     )
 
-    $null = Remove-Item -Path "$RootRegPath\Schedules\$ScheduleID" -Force -Confirm:$false
+    process {
+        foreach ($sid in $ScheduleID) {
+            $null = Remove-Item -Path "$RootRegPath\Schedules\$sid" -Force -Confirm:$false
+        }
+    }
 }

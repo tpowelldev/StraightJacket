@@ -12,7 +12,7 @@ function Invoke-LCMMan
     .PARAMETER RefreshMode
     Defines whether the LCM is configured with a RefreshMode of either Push or Pull when active, to match the environment
 
-    .PARAMETER RegRootPath
+    .PARAMETER RootRegPath
     Root registry location where LCMMan keys are located
 
     .EXAMPLE
@@ -28,10 +28,10 @@ function Invoke-LCMMan
         [ValidateSet('Pull','Push')]
         [string]$RefreshMode = 'Pull',
 
-        [string]$RegRootPath = 'HKLM:\SOFTWARE\LCMMan'
+        [string]$RootRegPath = 'HKLM:\SOFTWARE\LCMMan'
     )
 
-    $overrideOn = Get-ItemProperty -Path $RegRootPath -Name OverrideOn
+    $overrideOn = Get-ItemProperty -Path $RootRegPath -Name OverrideOn
     $currentRefreshMode = (Get-DscLocalConfigurationManager).RefreshMode
 
     if ($overrideOn -ne 1)

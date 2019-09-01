@@ -10,7 +10,7 @@ function Install-LCMMan
     .PARAMETER TriggerParams
     A hashtable containing the required parameters to configure the scheduled task trigger
 
-    .PARAMETER RegRootPath
+    .PARAMETER RootRegPath
     Root registry location where LCMMan keys are located
 
     .EXAMPLE
@@ -40,14 +40,14 @@ function Install-LCMMan
             RepetitionDuration  = 'P1D'
             RepetitionInterval  = 'PT5M'
         },
-        [string]$RegRootPath = 'HKLM:\SOFTWARE\LCMMan'
+        [string]$RootRegPath = 'HKLM:\SOFTWARE\LCMMan'
     )
 
     # Create required registry keys for storing schedules
-    if (-not (Test-Path "$RegRootPath\Schedules"))
+    if (-not (Test-Path "$RootRegPath\Schedules"))
     {
-        $null = New-Item -Path $RegRootPath -Name 'Schedules' -Force
-        $null = New-ItemProperty -Path $RegRootPath -Name OverrideOn -Value 0 -PropertyType DWord -Force
+        $null = New-Item -Path $RootRegPath -Name 'Schedules' -Force
+        $null = New-ItemProperty -Path $RootRegPath -Name OverrideOn -Value 0 -PropertyType DWord -Force
     }
 
     # If repetition has been set remove keys for later configuration

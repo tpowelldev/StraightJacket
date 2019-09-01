@@ -7,7 +7,7 @@ function Stop-LCMManOverride
     .DESCRIPTION
     Removes the flag that overrides any existing schedule and ensures the schedules are used to activate/deactivate the DSC LCM
 
-    .PARAMETER RegRootPath
+    .PARAMETER RootRegPath
     Root registry location where LCMMan keys are located
 
     .EXAMPLE
@@ -22,9 +22,9 @@ function Stop-LCMManOverride
     [CmdletBinding(SupportsShouldProcess, ConfirmImpact='Low')]
     param
     (
-        [string]$RegRootPath = 'HKLM:\SOFTWARE\LCMMan'
+        [string]$RootRegPath = 'HKLM:\SOFTWARE\LCMMan'
     )
 
     Set-LCMAttribute -RefreshMode Disabled
-    $null = Set-ItemProperty -Path $RegRootPath -Name OverrideOn -Value 0
+    $null = Set-ItemProperty -Path $RootRegPath -Name OverrideOn -Value 0
 }

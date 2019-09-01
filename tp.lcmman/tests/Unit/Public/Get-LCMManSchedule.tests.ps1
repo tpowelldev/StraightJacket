@@ -5,56 +5,47 @@ $modulePath = "$here\..\..\.."
 $moduleName = Split-Path -Path $modulePath -Leaf
 
 InModuleScope $moduleName {
-    Describe Get-Something {
-        Mock Get-PrivateFunction { $PrivateData }
+    Describe Get-LCMManSchedule {
+
+        New-Item -Path TestRegistry:\LCMMan\Schedules -Name 'd97efb3c-a759-421d-bed2-6c13b9ba22af' -Force
+        $regRoot = 'TestRegistry:\LCMMan\Schedules\d97efb3c-a759-421d-bed2-6c13b9ba22af'
+        New-ItemProperty -Path $regRoot -Name CreatedBy -Value 'Administrator'
+        New-ItemProperty -Path $regRoot -Name StartTime -Value '08:00:00'
+        New-ItemProperty -Path $regRoot -Name EndTime -Value '22:25:00'
+        New-ItemProperty -Path $regRoot -Name DaysActive -Value 'Friday'
+        $now = Get-Date
+        $activeNow = if ($now.DayOfWeek -eq 'Friday' -and (Get-Date '08:00:00') -lt $now -and (Get-Date '22:25:00') -gt $now) {
+            $true
+        } else { 
+            $false 
+        }
+
+        $return = Get-LCMManSchedule -RootRegPath 'TestRegistry:\LCMMan'
 
         Context 'Return values' {
-            BeforeEach {
-                $return = Get-Something -Data 'value'
-            }
 
             It 'Returns a single object' {
                 ($return | Measure-Object).Count | Should -Be 1
             }
 
-            It 'Returns a string from Get-PrivateFunction' {
-                Assert-MockCalled Get-PrivateFunction -Times 1 -Exactly -Scope It
-                $return | Should -Be 'value'
-            }
-        }
-
-        Context 'Pipeline' {
-            It 'Accepts values from the pipeline by value' {
-                $return = 'value1', 'value2' | Get-Something
-                Assert-MockCalled Get-PrivateFunction -Times 2 -Exactly -Scope It
-                $return[0] | Should -Be 'value1'
-                $return[1] | Should -Be 'value2'
+            It 'Returns correct CreatedBy value' {
+                $return.CreatedBy | Should -Be 'Administrator'
             }
 
-            It 'Accepts value from the pipeline by property name' {
-                $return = 'value1', 'value2' | ForEach-Object {
-                    [PSCustomObject]@{
-                        Data = $_
-                        OtherProperty = 'other'
-                    }
-                } | Get-Something
-
-                Assert-MockCalled Get-PrivateFunction -Times 2 -Exactly -Scope It
-                $return[0] | Should -Be 'value1'
-                $return[1] | Should -Be 'value2'
-            }
-        }
-
-        Context 'ShouldProcess' {
-            It 'Supports WhatIf' {
-                (Get-Command Get-Something).Parameters.ContainsKey('WhatIf') | Should -Be $true
-                { Get-Something -Data 'value' -WhatIf } | Should -Not -Throw
+            It 'Returns correct StartTime value' {
+                $return.StartTime | Should -Be '08:00:00'
             }
 
-            It 'Does not call Get-PrivateFunction if WhatIf is set' {
-                $return = Get-Something -Data 'value' -WhatIf
-                $return | Should -BeNullOrEmpty
-                Assert-MockCalled Get-PrivateFunction -Times 0 -Scope It
+            It 'Returns correct EndTime value' {
+                $return.EndTime | Should -Be '22:25:00'
+            }
+
+            It 'Returns correct DaysActive value' {
+                $return.DaysActive | Should -Be 'Friday'
+            }
+
+            It 'Returns correct ActiveNow value' {
+                $return.ActiveNow | Should -Be $activeNow
             }
         }
     }

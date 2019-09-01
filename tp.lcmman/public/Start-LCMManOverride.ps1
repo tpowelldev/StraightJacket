@@ -10,7 +10,7 @@ function Start-LCMManOverride
     .PARAMETER RefreshMode
     Defines whether the LCM is configured with a RefreshMode of either Push or Pull when active, to match the environment
 
-    .PARAMETER RegRootPath
+    .PARAMETER RootRegPath
     Root registry location where LCMMan keys are located
 
     .EXAMPLE
@@ -26,9 +26,9 @@ function Start-LCMManOverride
         [ValidateSet('Pull','Push')]
         [string]$RefreshMode = 'Pull',
 
-        [string]$RegRootPath = 'HKLM:\SOFTWARE\LCMMan'
+        [string]$RootRegPath = 'HKLM:\SOFTWARE\LCMMan'
     )
 
-    $null = Set-ItemProperty -Path $RegRootPath -Name OverrideOn -Value 1
+    $null = Set-ItemProperty -Path $RootRegPath -Name OverrideOn -Value 1
     Set-LCMAttribute -RefreshMode $RefreshMode
 }

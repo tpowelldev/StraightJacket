@@ -7,7 +7,7 @@ function Uninstall-LCMMan
     .DESCRIPTION
     Uninstalls the scheduled task and registry keys associated with LCM Manager
 
-    .PARAMETER RegRootPath
+    .PARAMETER RootRegPath
     Root registry location where LCMMan keys are located
 
     .EXAMPLE
@@ -21,12 +21,12 @@ function Uninstall-LCMMan
 
     param
     (
-        [string]$RegRootPath = 'HKLM:\SOFTWARE\LCMMan'
+        [string]$RootRegPath = 'HKLM:\SOFTWARE\LCMMan'
     )
 
-    if (Test-Path $RegRootPath)
+    if (Test-Path $RootRegPath)
     {
-        $null = Remove-Item -Path $RegRootPath -Force
+        $null = Remove-Item -Path $RootRegPath -Force
     }
 
     if (Get-ScheduledTask -TaskName 'LCMMan' -ErrorAction SilentlyContinue)

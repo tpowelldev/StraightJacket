@@ -68,6 +68,10 @@ function Set-LCMAttribute
         [int]$StatusRetentionTimeInDays
     )
 
+    #
+    # Need to handle if DSC is currently running or the below will error
+    #
+
     $currentLCMConfig = Get-DscLocalConfigurationManager
 
     if ($RefreshMode -eq 'Pull' -and
