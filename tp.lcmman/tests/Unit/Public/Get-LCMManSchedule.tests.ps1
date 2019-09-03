@@ -9,7 +9,7 @@ InModuleScope $moduleName {
 
         New-Item -Path TestRegistry:\LCMMan\Schedules -Name 'd97efb3c-a759-421d-bed2-6c13b9ba22af' -Force
         $regRoot = 'TestRegistry:\LCMMan\Schedules\d97efb3c-a759-421d-bed2-6c13b9ba22af'
-        New-ItemProperty -Path $regRoot -Name CreatedBy -Value 'Administrator'
+        New-ItemProperty -Path $regRoot -Name LastEditor -Value 'Administrator'
         New-ItemProperty -Path $regRoot -Name StartTime -Value '08:00:00'
         New-ItemProperty -Path $regRoot -Name EndTime -Value '22:25:00'
         New-ItemProperty -Path $regRoot -Name DaysActive -Value 'Friday'
@@ -28,8 +28,8 @@ InModuleScope $moduleName {
                 ($return | Measure-Object).Count | Should -Be 1
             }
 
-            It 'Returns correct CreatedBy value' {
-                $return.CreatedBy | Should -Be 'Administrator'
+            It 'Returns correct LastEditor value' {
+                $return.LastEditor | Should -Be 'Administrator'
             }
 
             It 'Returns correct StartTime value' {
