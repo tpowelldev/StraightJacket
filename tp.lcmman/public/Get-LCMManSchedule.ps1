@@ -46,8 +46,8 @@ function Get-LCMManSchedule
             StartTime,
             EndTime,
             @{n='DaysActive';e={@($_.DaysActive -split ',')}},
-            CreatedBy,
+            LastEditor,
             @{n='ActiveNow';e={ @($_.DaysActive -split ',') -contains $now.DayOfWeek -and
-            ((Get-Date $_.StartTime) -lt $now -and (Get-Date $_.EndTime) -gt $now) }}
+            (([datetime]$_.StartTime) -lt $now -and ([datetime]$_.EndTime) -gt $now) }}
     }
 }

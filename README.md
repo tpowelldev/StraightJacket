@@ -1,4 +1,4 @@
-# PowerShell DSC LCM Manager 
+# LCM Manager 
 
 A collection of functions to install, configure, invoke and uninstall LCM Manager.
 
@@ -9,5 +9,5 @@ LCM Manager provides a method to schedule the activation of the DSC LCM to ensur
 ## To do:
 
 * Complete unit tests / increase code coverage
-* Complete documentation / help text
-* Allow defining specific dates for maintenance windows, rather than working with 7 day recurring week
+* Complete documentation 
+* Allow defining specific dates for maintenance windows, rather than working with a 7 day recurring week

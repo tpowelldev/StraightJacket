@@ -72,7 +72,7 @@ function New-LCMManSchedule
     if ($Weekend) { $daysActive = 'Saturday,Sunday' }
     if ($All)     { $daysActive = 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday' }
 
-    $null = New-ItemProperty -Path $schedKey -Name CreatedBy -Value $env:USERNAME -PropertyType String
+    $null = New-ItemProperty -Path $schedKey -Name LastEditor -Value $env:USERNAME -PropertyType String
     $null = New-ItemProperty -Path $schedKey -Name StartTime -Value $StartTime.TimeOfDay.ToString() -PropertyType String
     $null = New-ItemProperty -Path $schedKey -Name EndTime -Value $EndTime.TimeOfDay.ToString() -PropertyType String
     $null = New-ItemProperty -Path $schedKey -Name DaysActive -Value $daysActive -PropertyType String
