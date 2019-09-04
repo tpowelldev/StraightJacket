@@ -29,7 +29,9 @@ function Set-LCMManSchedule
     Root registry location where LCMMan keys are located
 
     .EXAMPLE
-    Set-LCMManSchedule -ScheduleID c3ba85f5-5336-4d7b-b861-ff34d212c83f
+    Set-LCMManSchedule -ScheduleID c3ba85f5-5336-4d7b-b861-ff34d212c83f -StartTime 09:00 -EndTime 21:00
+
+    Reconfigure schedule with ID c3ba85f5-5336-4d7b-b861-ff34d212c83f to activate between 09:00 and 21:00
 
     .EXAMPLE
     Get-LCMManSchedule | ? DaysActive -eq Friday | Set-LCMManSchedule -DaysActive Saturday
