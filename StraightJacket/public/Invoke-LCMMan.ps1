@@ -31,7 +31,7 @@ function Invoke-LCMMan
         [string]$RootRegPath = 'HKLM:\SOFTWARE\LCMMan'
     )
 
-    $overrideOn = Get-ItemProperty -Path $RootRegPath -Name OverrideOn
+    $overrideOn = (Get-ItemProperty -Path $RootRegPath -Name OverrideOn).OverrideOn
     $currentRefreshMode = (Get-DscLocalConfigurationManager).RefreshMode
 
     if ($overrideOn -ne 1)
