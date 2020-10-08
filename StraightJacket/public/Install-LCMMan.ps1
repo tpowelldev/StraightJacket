@@ -73,7 +73,7 @@ function Install-LCMMan
     # Register the scheduled task
     if (-not (Get-ScheduledTask -TaskName 'LCMMan' -ErrorAction SilentlyContinue))
     {
-        $action = New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument '-NoProfile -Command "Import-Module tp.lcmman -Force; Invoke-LCMMan"'
+        $action = New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument '-NoProfile -Command "Import-Module StraightJacket -Force; Invoke-LCMMan"'
         $trigger = New-ScheduledTaskTrigger @TriggerParams
 
         $null = Register-ScheduledTask -Action $action -Trigger $trigger -TaskName 'LCMMan' -Description "DSC LCM Manager & Scheduler"
