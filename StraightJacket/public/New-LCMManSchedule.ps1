@@ -54,6 +54,9 @@ function New-LCMManSchedule
         [ValidateSet('Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday')]
         [string[]]$Days,
 
+        [Parameter(ParameterSetName='WeekDays')]
+        [switch]$WeekDays,
+
         [Parameter(ParameterSetName='Weekend')]
         [switch]$Weekend,
 
@@ -68,9 +71,10 @@ function New-LCMManSchedule
 
     $schedKey = "$RootRegPath\Schedules\$keyGUID"
 
-    if ($Days)    { $daysActive = $Days -join ',' }
-    if ($Weekend) { $daysActive = 'Saturday,Sunday' }
-    if ($All)     { $daysActive = 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday' }
+    if ($Days)     { $daysActive = $Days -join ',' }
+    if ($WeekDays) { $daysActive = 'Monday,Tuesday,Wednesday,Thursday,Friday' }
+    if ($Weekend)  { $daysActive = 'Saturday,Sunday' }
+    if ($All)      { $daysActive = 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday' }
 
     $null = New-ItemProperty -Path $schedKey -Name LastEditor -Value $env:USERNAME -PropertyType String
     $null = New-ItemProperty -Path $schedKey -Name StartTime -Value $StartTime.TimeOfDay.ToString() -PropertyType String
