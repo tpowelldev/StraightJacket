@@ -78,13 +78,13 @@ function Install-LCMMan
 
         $null = Register-ScheduledTask -Action $action -Trigger $trigger -TaskName 'LCMMan' -Description "DSC LCM Manager & Scheduler"
     }
+    $task = Get-ScheduledTask -TaskName 'LCMMan'
 
     # Add repetition configuration, if defined
     if ($null -ne $StRepDuration -and $null -ne $StRepInterval)
     {
-        $task = Get-ScheduledTask -TaskName 'LCMMan'
         $task.Triggers.Repetition.Duration = $StRepDuration
         $task.Triggers.Repetition.Interval = $StRepInterval
-        $null = $task | Set-ScheduledTask -User "NT AUTHORITY\SYSTEM"
     }
+    $null = $task | Set-ScheduledTask -User "NT AUTHORITY\SYSTEM"
 }
