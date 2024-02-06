@@ -26,7 +26,7 @@ function Uninstall-LCMMan
 
     if (Test-Path $RootRegPath)
     {
-        $null = Remove-Item -Path $RootRegPath -Force
+        $null = Remove-Item -Path $RootRegPath -Recurse -Force
     }
 
     if (Get-ScheduledTask -TaskName 'LCMMan' -ErrorAction SilentlyContinue)
